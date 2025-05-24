@@ -105,22 +105,47 @@ int main(int argc, char* argv[]) {
         cv::minMaxLoc(volMat, &minVal, &maxVal, nullptr, nullptr, maskMat);
         statsFile << z << "," << area << "," << meanVal[0] << "," << minVal << "," << maxVal << "\n";
 
-        // 🔹 Colorización
-        cv::Mat colorVol;
-        cv::cvtColor(volMat, colorVol, cv::COLOR_GRAY2BGR);
+        // 🔹 Imagen A: volumen completo con resaltado
+        cv::Mat colorFull;
+        cv::cvtColor(volMat, colorFull, cv::COLOR_GRAY2BGR);
         for (int y = 0; y < maskMat.rows; ++y) {
             for (int x = 0; x < maskMat.cols; ++x) {
                 if (maskMat.at<uchar>(y, x) > 10) {
-                    colorVol.at<cv::Vec3b>(y, x) = {0, 0, 255};  // rojo
+                    colorFull.at<cv::Vec3b>(y, x) = {0, 0, 255};  // rojo
                 }
             }
         }
 
-        // 🔹 Guardar imagen y agregar al video
-        std::ostringstream filename;
-        filename << carpetaSalida << "/slice_" << std::setw(3) << std::setfill('0') << z << ".png";
-        cv::imwrite(filename.str(), colorVol);
-        video.write(colorVol);
+        // 🔹 Imagen B: volumen enmascarado con operación lógica AND
+        cv::Mat volMasked;
+        cv::bitwise_and(volMat, maskMat, volMasked);
+
+        cv::Mat colorMasked;
+        cv::cvtColor(volMasked, colorMasked, cv::COLOR_GRAY2BGR);
+        for (int y = 0; y < maskMat.rows; ++y)
+        {
+            for (int x = 0; x < maskMat.cols; ++x) {
+                if (maskMat.at<uchar>(y, x) > 10) {
+                    colorMasked.at<cv::Vec3b>(y, x) = {0, 0, 255};  // rojo
+                }
+            }
+        }
+
+
+        // 🔹 Guardar ambas imágenes
+        std::ostringstream fullName, maskedName;
+        fullName << carpetaSalida << "/slice_" << std::setw(3) << std::setfill('0') << z << "_full.png";
+        maskedName << carpetaSalida << "/slice_" << std::setw(3) << std::setfill('0') << z << "_masked.png";
+
+        std::cout << "✅ Generando slice enmascarado: " << maskedName.str() << std::endl;
+        cv::imshow("Masked", colorMasked);
+        cv::waitKey(1);
+
+        cv::imwrite(fullName.str(), colorFull);
+        cv::imwrite(maskedName.str(), colorMasked);
+
+        // 🔹 Agregar imagen enmascarada al video
+        video.write(colorMasked);
     }
 
     statsFile.close();
