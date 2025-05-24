@@ -1,0 +1,25 @@
+# Archivos de compilación
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+
+# Ejecutables
+*.out
+*.exe
+*.bin
+ProyectoIntercicloDACP
+
+# Archivos generados
+*.avi
+*.csv
+*.png
+*.log
+
+
+#Archivos pesados
+
+Volumen*.nii
+Mascara*.nii
+
