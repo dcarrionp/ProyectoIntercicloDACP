@@ -170,6 +170,6 @@ but this file does not exist.  Possible reasons include:
    "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
 but not all the files it references.
 
--- Configuring done (0.6s)
+-- Configuring done (0.8s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/diego/Vision/ProyectoIntercicloDACP/cmake-build-debug
