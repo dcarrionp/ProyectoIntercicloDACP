@@ -1,0 +1,3 @@
+/home/diego/Vision/ProyectoIntercicloDACP/cmake-build-debug/CMakeFiles/ProyectoIntercicloDACP.dir
+/home/diego/Vision/ProyectoIntercicloDACP/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/diego/Vision/ProyectoIntercicloDACP/cmake-build-debug/CMakeFiles/rebuild_cache.dir

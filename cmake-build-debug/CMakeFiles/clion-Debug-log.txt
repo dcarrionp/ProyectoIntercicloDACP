@@ -1,0 +1,175 @@
+/home/diego/CLion-2024.3.5/clion-2024.3.5/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/diego/CLion-2024.3.5/clion-2024.3.5/bin/ninja/linux/x64/ninja -G Ninja -S /home/diego/Vision/ProyectoIntercicloDACP -B /home/diego/Vision/ProyectoIntercicloDACP/cmake-build-debug
+-- The imported target "vtkgdcm" references the file
+   "/usr/lib/x86_64-linux-gnu/libvtkgdcm.so.3.0.10"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "vtkgdcmsharpglue" references the file
+   "/usr/lib/cli/vtkgdcm-sharp-3.0/libvtkgdcmsharpglue.so"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "vtkgdcmJava" references the file
+   "/usr/lib/x86_64-linux-gnu/jni/libvtkgdcmJava.so"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "vtkgdcmPython" references the file
+   "/usr/lib/python3/dist-packages/vtkgdcmPython.cpython-310-x86_64-linux-gnu.so"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "vtkgdcmPythonD" references the file
+   "/usr/lib/x86_64-linux-gnu/libvtkgdcmPythonD.so.3.0.10"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmdump" references the file
+   "/usr/bin/gdcmdump"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmdiff" references the file
+   "/usr/bin/gdcmdiff"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmraw" references the file
+   "/usr/bin/gdcmraw"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmscanner" references the file
+   "/usr/bin/gdcmscanner"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmanon" references the file
+   "/usr/bin/gdcmanon"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmgendir" references the file
+   "/usr/bin/gdcmgendir"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmimg" references the file
+   "/usr/bin/gdcmimg"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmconv" references the file
+   "/usr/bin/gdcmconv"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmtar" references the file
+   "/usr/bin/gdcmtar"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcminfo" references the file
+   "/usr/bin/gdcminfo"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmscu" references the file
+   "/usr/bin/gdcmscu"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmxml" references the file
+   "/usr/bin/gdcmxml"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmpap3" references the file
+   "/usr/bin/gdcmpap3"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- The imported target "gdcmpdf" references the file
+   "/usr/bin/gdcmpdf"
+but this file does not exist.  Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+   "/usr/lib/x86_64-linux-gnu/gdcm-3.0/GDCMTargets.cmake"
+but not all the files it references.
+
+-- Configuring done (0.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/diego/Vision/ProyectoIntercicloDACP/cmake-build-debug
