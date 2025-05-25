@@ -10,6 +10,41 @@
 
 namespace fs = std::filesystem;
 
+// Función para aplicar técnicas por separado y guardar resultados en carpetas
+void aplicarTecnicasPorSeparado(const cv::Mat& vol, const cv::Mat& mask, int z, const std::string& path) {
+    char buf[32];
+    sprintf(buf, "%03d", z);
+
+    // Thresholding
+    cv::Mat thresholded;
+    cv::threshold(vol, thresholded, 100, 255, cv::THRESH_BINARY);
+    cv::imwrite(path + "/resultados_threshold/slice_" + buf + "_threshold.png", thresholded);
+
+    // Contrast Stretching
+    cv::Mat stretched;
+    cv::normalize(vol, stretched, 0, 255, cv::NORM_MINMAX);
+    cv::imwrite(path + "/resultados_stretch/slice_" + buf + "_stretch.png", stretched);
+
+    // Binarización por umbral de color
+    cv::Mat inRangeMask;
+    cv::inRange(vol, 120, 200, inRangeMask);
+    cv::imwrite(path + "/resultados_inrange/slice_" + buf + "_inrange.png", inRangeMask);
+
+    // Operaciones lógicas
+    cv::Mat logic_or, logic_xor, logic_not;
+    cv::bitwise_or(vol, mask, logic_or);
+    cv::bitwise_xor(vol, mask, logic_xor);
+    cv::bitwise_not(mask, logic_not);
+    cv::imwrite(path + "/resultados_or/slice_" + buf + "_or.png", logic_or);
+    cv::imwrite(path + "/resultados_xor/slice_" + buf + "_xor.png", logic_xor);
+    cv::imwrite(path + "/resultados_not/slice_" + buf + "_not.png", logic_not);
+
+    // Canny (bordes)
+    cv::Mat edges;
+    cv::Canny(vol, edges, 100, 200);
+    cv::imwrite(path + "/resultados_canny/slice_" + buf + "_canny.png", edges);
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 4) {
         std::cerr << "Uso: " << argv[0] << " volumen.nii.gz mascara.nii.gz carpeta_salida" << std::endl;
@@ -21,6 +56,17 @@ int main(int argc, char* argv[]) {
     const std::string carpetaSalida = argv[3];
     fs::create_directories(carpetaSalida);
 
+    // Crear subcarpetas para resultados
+    fs::create_directories(carpetaSalida + "/resultados_full");
+    fs::create_directories(carpetaSalida + "/resultados_masked");
+    fs::create_directories(carpetaSalida + "/resultados_threshold");
+    fs::create_directories(carpetaSalida + "/resultados_stretch");
+    fs::create_directories(carpetaSalida + "/resultados_inrange");
+    fs::create_directories(carpetaSalida + "/resultados_or");
+    fs::create_directories(carpetaSalida + "/resultados_xor");
+    fs::create_directories(carpetaSalida + "/resultados_not");
+    fs::create_directories(carpetaSalida + "/resultados_canny");
+
     constexpr unsigned int Dimension = 3;
     using PixelType = float;
     using Image3DType = itk::Image<PixelType, Dimension>;
@@ -29,7 +75,6 @@ int main(int argc, char* argv[]) {
     using ExtractFilterType = itk::ExtractImageFilter<Image3DType, Image2DType>;
     using RescaleFilterType = itk::RescaleIntensityImageFilter<Image2DType, itk::Image<unsigned char, 2>>;
 
-    // Lectura del volumen y la máscara
     ReaderType::Pointer volReader = ReaderType::New();
     volReader->SetFileName(volumenPath);
     volReader->Update();
@@ -43,10 +88,7 @@ int main(int argc, char* argv[]) {
     Image3DType::SizeType size = volumen->GetLargestPossibleRegion().GetSize();
     std::cout << "Procesando " << size[2] << " slices..." << std::endl;
 
-    // Video
     cv::VideoWriter video(carpetaSalida + "/video_slices.avi", cv::VideoWriter::fourcc('M','J','P','G'), 5, cv::Size(size[0], size[1]));
-
-    // Archivo CSV para estadísticas
     std::ofstream statsFile(carpetaSalida + "/estadisticas.csv");
     statsFile << "Slice,Area,Media,Minimo,Maximo\n";
 
@@ -83,21 +125,15 @@ int main(int argc, char* argv[]) {
         cv::Mat volMat = extractAndRescaleSlice(volumen);
         cv::Mat maskMat = extractAndRescaleSlice(mascara);
 
-        if (volMat.empty() || maskMat.empty()) {
-            std::cerr << "⚠️ Slice Z=" << z << " inválido o vacío. Se omite." << std::endl;
-            continue;
-        }
+        if (volMat.empty() || maskMat.empty()) continue;
 
-        // 🔹 Preprocesamiento: filtros
+        // Preprocesamiento
         cv::GaussianBlur(volMat, volMat, cv::Size(5, 5), 1.0);
         cv::medianBlur(maskMat, maskMat, 3);
-
-        // 🔹 Morfología: apertura y cierre
         cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
         cv::morphologyEx(maskMat, maskMat, cv::MORPH_OPEN, kernel);
         cv::morphologyEx(maskMat, maskMat, cv::MORPH_CLOSE, kernel);
 
-        // 🔹 Estadísticas
         int area = cv::countNonZero(maskMat);
         cv::Scalar meanVal;
         double minVal, maxVal;
@@ -105,51 +141,38 @@ int main(int argc, char* argv[]) {
         cv::minMaxLoc(volMat, &minVal, &maxVal, nullptr, nullptr, maskMat);
         statsFile << z << "," << area << "," << meanVal[0] << "," << minVal << "," << maxVal << "\n";
 
-        // 🔹 Imagen A: volumen completo con resaltado
+        if (area > 0)
+            aplicarTecnicasPorSeparado(volMat, maskMat, z, carpetaSalida);
+
+        // Guardar imagen full
         cv::Mat colorFull;
         cv::cvtColor(volMat, colorFull, cv::COLOR_GRAY2BGR);
-        for (int y = 0; y < maskMat.rows; ++y) {
-            for (int x = 0; x < maskMat.cols; ++x) {
-                if (maskMat.at<uchar>(y, x) > 10) {
-                    colorFull.at<cv::Vec3b>(y, x) = {0, 0, 255};  // rojo
-                }
-            }
-        }
+        for (int y = 0; y < maskMat.rows; ++y)
+            for (int x = 0; x < maskMat.cols; ++x)
+                if (maskMat.at<uchar>(y, x) > 10)
+                    colorFull.at<cv::Vec3b>(y, x) = {0, 0, 255};
+        std::ostringstream nameFull;
+        nameFull << carpetaSalida << "/resultados_full/slice_" << std::setw(3) << std::setfill('0') << z << "_full.png";
+        cv::imwrite(nameFull.str(), colorFull);
 
-        // 🔹 Imagen B: volumen enmascarado con operación lógica AND
+        // Guardar imagen masked
         cv::Mat volMasked;
         cv::bitwise_and(volMat, maskMat, volMasked);
-
         cv::Mat colorMasked;
         cv::cvtColor(volMasked, colorMasked, cv::COLOR_GRAY2BGR);
         for (int y = 0; y < maskMat.rows; ++y)
-        {
-            for (int x = 0; x < maskMat.cols; ++x) {
-                if (maskMat.at<uchar>(y, x) > 10) {
-                    colorMasked.at<cv::Vec3b>(y, x) = {0, 0, 255};  // rojo
-                }
-            }
-        }
+            for (int x = 0; x < maskMat.cols; ++x)
+                if (maskMat.at<uchar>(y, x) > 10)
+                    colorMasked.at<cv::Vec3b>(y, x) = {0, 0, 255};
+        std::ostringstream nameMasked;
+        nameMasked << carpetaSalida << "/resultados_masked/slice_" << std::setw(3) << std::setfill('0') << z << "_masked.png";
+        cv::imwrite(nameMasked.str(), colorMasked);
 
-
-        // 🔹 Guardar ambas imágenes
-        std::ostringstream fullName, maskedName;
-        fullName << carpetaSalida << "/slice_" << std::setw(3) << std::setfill('0') << z << "_full.png";
-        maskedName << carpetaSalida << "/slice_" << std::setw(3) << std::setfill('0') << z << "_masked.png";
-
-        std::cout << "✅ Generando slice enmascarado: " << maskedName.str() << std::endl;
-        cv::imshow("Masked", colorMasked);
-        cv::waitKey(1);
-
-        cv::imwrite(fullName.str(), colorFull);
-        cv::imwrite(maskedName.str(), colorMasked);
-
-        // 🔹 Agregar imagen enmascarada al video
         video.write(colorMasked);
     }
 
     statsFile.close();
     video.release();
-    std::cout << "✅ Procesamiento completado. Imágenes, estadísticas y video guardados en: " << carpetaSalida << std::endl;
+    std::cout << "✅ Procesamiento completado y resultados organizados en subcarpetas: " << carpetaSalida << std::endl;
     return EXIT_SUCCESS;
 }

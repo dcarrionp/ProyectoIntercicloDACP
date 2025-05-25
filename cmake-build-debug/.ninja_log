@@ -1,4 +1,9 @@
 # ninja log v6
-1	702	1748103917284631000	build.ninja	9400174fb55ad1d6
-4	5710	1748102967201763921	CMakeFiles/ProyectoIntercicloDACP.dir/main.cpp.o	badca46704b4dee5
 5710	6321	1748102972908095507	ProyectoIntercicloDACP	29cf5b95d7bd8cae
+4	5710	1748102967201763921	CMakeFiles/ProyectoIntercicloDACP.dir/main.cpp.o	badca46704b4dee5
+1	702	1748212355957512877	build.ninja	9400174fb55ad1d6
+8	890	1748212355957512877	build.ninja	9400174fb55ad1d6
+1	5725	1748212355969513484	CMakeFiles/ProyectoIntercicloDACP.dir/main.cpp.o	badca46704b4dee5
+5725	6499	1748212361692802520	ProyectoIntercicloDACP	29cf5b95d7bd8cae
+3	5943	1748212768368005504	CMakeFiles/ProyectoIntercicloDACP.dir/main.cpp.o	badca46704b4dee5
+5943	6540	1748212774308285208	ProyectoIntercicloDACP	29cf5b95d7bd8cae
